@@ -3,6 +3,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect, useMemo, useState } from "react";
 import AuthProvider from "./components/AuthProvider";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<"light" | "dark" | "color">("light");
@@ -23,7 +25,9 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthProvider>{children}</AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <AuthProvider>{children}</AuthProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

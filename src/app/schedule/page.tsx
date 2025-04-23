@@ -3,13 +3,18 @@ import MainLayout from "../components/MainLayout";
 import { Tabs, Tab, Box } from "@mui/material";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useAuth } from '../components/AuthProvider'; 
 
 const MilestoneTab = dynamic(() => import("./MilestoneTab"), { ssr: false });
 const DayToRememberTab = dynamic(() => import("./DayToRememberTab"), { ssr: false });
 const ShareCalendarTab = dynamic(() => import("./ShareCalendarTab"), { ssr: false });
 
 export default function SchedulePage() {
+  const { user, loading } = useAuth();
   const [tab, setTab] = useState(0);
+  if (loading) return <div>Loading...</div>;
+  if (!user) return null;
+
   return (
     <MainLayout>
       <Tabs value={tab} onChange={(_, v) => setTab(v)}>
