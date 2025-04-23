@@ -8,7 +8,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   const [mode, setMode] = useState<"light" | "dark" | "color">("light");
   useEffect(() => {
     const saved = typeof window !== "undefined" ? localStorage.getItem("themeMode") : null;
-    if (saved && (saved === "light" || saved === "dark" || saved === "color")) setMode(saved as any);
+    if (saved && (saved === "light" || saved === "dark" || saved === "color")) setMode(saved as "light" | "dark" | "color");
   }, []);
   const theme = useMemo(() => createTheme({
     palette: {

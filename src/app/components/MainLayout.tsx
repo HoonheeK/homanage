@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, AppBar, Toolbar, Typography, IconButton, Divider } from "@mui/material";
+import { Drawer, List, ListItemIcon, ListItemText, Box, Toolbar, Typography, Divider } from "@mui/material";
+import ListItemButton from "@mui/material/ListItemButton";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import EventIcon from "@mui/icons-material/Event";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
-import { useAuth } from "./AuthProvider";
+// import { useAuth } from "./AuthProvider";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter, usePathname } from "next/navigation";
@@ -17,10 +17,10 @@ const menu = [
 ];
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen] = useState(true);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -36,20 +36,23 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <Divider />
         <List>
           {menu.map(item => (
-            <Link href={item.href} key={item.label} passHref legacyBehavior>
-              <ListItem button selected={pathname.startsWith(item.href)}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItem>
-            </Link>
+            <ListItemButton
+              component={Link}
+              href={item.href}
+              key={item.label}
+              selected={pathname.startsWith(item.href)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
           ))}
         </List>
         <Divider sx={{ mt: "auto" }} />
         <List>
-          <ListItem button onClick={handleLogout}>
+          <ListItemButton onClick={handleLogout}>
             <ListItemIcon><LogoutIcon /></ListItemIcon>
             <ListItemText primary="Logout" />
-          </ListItem>
+          </ListItemButton>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>

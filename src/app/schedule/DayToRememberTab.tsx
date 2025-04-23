@@ -7,8 +7,8 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextFie
 import { DatePicker } from "@mui/x-date-pickers";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import dayjs, { Dayjs } from "dayjs";
-import { Solar, Lunar } from "lunar-javascript";
+import dayjs from "dayjs";
+import { Solar } from "lunar-javascript";
 
 interface RememberDay {
   id: string;
@@ -71,7 +71,7 @@ export default function DayToRememberTab() {
     const solar = Solar.fromDate(form.date.toDate());
     const lunar = solar.getLunar();
     // 음력 날짜를 양력으로 변환하여 저장(기념일 계산시 활용)
-    return Timestamp.fromDate(lunar.getSolar().getDate());
+    return Timestamp.fromDate(lunar.getSolar().toDate());
   };
 
   const handleSubmit = async () => {
